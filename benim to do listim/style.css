@@ -1,0 +1,620 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* === SIDEBAR STİLLERİ === */
+.sidebar {
+    width: 280px;
+    background: white;
+    padding: 25px 20px;
+    border-right: 1px solid #e1e5e9;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+    color: #2d3748;
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Kategori Listesi */
+.category-list {
+    margin-bottom: 30px;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #f8f9fa;
+}
+
+.category-item:hover {
+    background: #e9ecef;
+}
+
+.category-item.active {
+    background: #667eea;
+    color: white;
+}
+
+.category-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+}
+
+.task-count {
+    background: #dee2e6;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.category-item.active .task-count {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.category-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.category-item:hover .category-actions {
+    opacity: 1;
+}
+
+.delete-category-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.3s;
+}
+
+.delete-category-btn:hover {
+    background: #c82333;
+}
+
+/* Varsayılan kategorilerde silme butonu gizli */
+.category-item[data-category="all"] .delete-category-btn,
+.category-item[data-category="work"] .delete-category-btn,
+.category-item[data-category="personal"] .delete-category-btn,
+.category-item[data-category="shopping"] .delete-category-btn,
+.category-item[data-category="health"] .delete-category-btn {
+    display: none;
+}
+
+/* Yeni Kategori Ekleme */
+.add-category {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 30px;
+}
+
+#newCategoryInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.add-category button {
+    padding: 10px 15px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-category button:hover {
+    background: #218838;
+}
+
+/* === ÖNCELİK FİLTRELERİ === */
+.priority-filters {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.priority-filters h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.priority-filter-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #f8f9fa;
+}
+
+.priority-filter-item:hover {
+    background: #e9ecef;
+}
+
+.priority-filter-item.active {
+    background: #667eea;
+    color: white;
+}
+
+.priority-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.priority-dot.all {
+    background: #6c757d;
+}
+
+.priority-dot.low {
+    background: #28a745;
+}
+
+.priority-dot.medium {
+    background: #ffc107;
+}
+
+.priority-dot.high {
+    background: #fd7e14;
+}
+
+.priority-dot.urgent {
+    background: #dc3545;
+}
+
+.priority-filter-item.active .priority-dot {
+    border: 2px solid white;
+}
+
+/* === ANA İÇERİK === */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    background: rgba(248, 250, 252, 0.8);
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* Input Section */
+.input-section {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+#taskInput {
+    flex: 2;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    min-width: 250px;
+}
+
+#categorySelect, #prioritySelect, #sortSelect {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    min-width: 120px;
+    background: white;
+}
+
+button {
+    padding: 12px 24px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+/* Filters Header */
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+#currentCategoryTitle {
+    color: #333;
+    font-size: 20px;
+    margin: 0;
+}
+
+.sort-options select {
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Task List */
+#taskList {
+    list-style: none;
+    margin-bottom: 25px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: #f8fafc;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border-left: 5px solid #667eea;
+    transition: all 0.3s;
+}
+
+.task-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Öncelik Renkleri */
+.task-item.priority-low {
+    border-left-color: #28a745;
+    background: linear-gradient(90deg, rgba(40, 167, 69, 0.05) 0%, transparent 100%);
+}
+
+.task-item.priority-medium {
+    border-left-color: #ffc107;
+    background: linear-gradient(90deg, rgba(255, 193, 7, 0.05) 0%, transparent 100%);
+}
+
+.task-item.priority-high {
+    border-left-color: #fd7e14;
+    background: linear-gradient(90deg, rgba(253, 126, 20, 0.05) 0%, transparent 100%);
+}
+
+.task-item.priority-urgent {
+    border-left-color: #dc3545;
+    background: linear-gradient(90deg, rgba(220, 53, 69, 0.05) 0%, transparent 100%);
+}
+
+.task-item.completed {
+    opacity: 0.7;
+    text-decoration: line-through;
+    background: #f1f3f4;
+}
+
+.task-content {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 15px;
+}
+
+.task-text {
+    flex: 1;
+    font-size: 16px;
+    color: #2d3748;
+}
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.task-category {
+    background: #e2e8f0;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.task-priority {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.task-priority.low {
+    background: #28a745;
+    color: white;
+}
+
+.task-priority.medium {
+    background: #ffc107;
+    color: #212529;
+}
+
+.task-priority.high {
+    background: #fd7e14;
+    color: white;
+}
+
+.task-priority.urgent {
+    background: #dc3545;
+    color: white;
+}
+
+.delete-btn {
+    background: #e53e3e;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.delete-btn:hover {
+    background: #c53030;
+}
+
+/* Stats */
+.stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+    padding-top: 20px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.stats > div {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-export {
+    background: #17a2b8;
+}
+
+.btn-export:hover {
+    background: #138496;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 20px;
+}
+
+.modal p {
+    margin-bottom: 25px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.btn-cancel {
+    background: #6c757d;
+    padding: 10px 20px;
+}
+
+.btn-cancel:hover {
+    background: #5a6268;
+}
+
+.btn-delete {
+    background: #dc3545;
+    padding: 10px 20px;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+/* === MOBİL UYUMLULUK === */
+@media (max-width: 968px) {
+    .app-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+    
+    .container {
+        padding: 20px;
+        margin: 0;
+    }
+    
+    .input-section {
+        flex-direction: column;
+    }
+    
+    #taskInput, #categorySelect, #prioritySelect {
+        min-width: 100%;
+    }
+    
+    .filters-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .stats > div {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .stats > div button {
+        width: 100%;
+    }
+    
+    .task-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .task-meta {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .category-item {
+        flex: 1;
+        min-width: 140px;
+        text-align: center;
+    }
+    
+    .category-actions {
+        opacity: 1;
+    }
+    
+    .priority-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .priority-filter-item {
+        flex: 1;
+        min-width: 80px;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 15px;
+    }
+    
+    .main-content {
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    .task-item {
+        padding: 12px;
+    }
+    
+    .task-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px; }
+    }

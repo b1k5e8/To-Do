@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapılacaklar Listem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sol Sidebar - Kategoriler -->
+        <div class="sidebar">
+            <h2>📂 Kategoriler</h2>
+            <div class="category-list" id="categoryList">
+                <div class="category-item active" data-category="all">
+                    <div class="category-content">
+                        <span>📋 Tümü</span>
+                        <span class="task-count">0</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="work">
+                    <div class="category-content">
+                        <span>💼 İş</span>
+                        <span class="task-count">0</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="personal">
+                    <div class="category-content">
+                        <span>👤 Kişisel</span>
+                        <span class="task-count">0</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="shopping">
+                    <div class="category-content">
+                        <span>🛒 Alışveriş</span>
+                        <span class="task-count">0</span>
+                    </div>
+                </div>
+                <div class="category-item" data-category="health">
+                    <div class="category-content">
+                        <span>🏥 Sağlık</span>
+                        <span class="task-count">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="add-category">
+                <input type="text" id="newCategoryInput" placeholder="Yeni kategori...">
+                <button onclick="addNewCategory()">+</button>
+            </div>
+
+            <!-- Öncelik Filtreleri -->
+            <div class="priority-filters">
+                <h3>🎯 Öncelik</h3>
+                <div class="priority-filter-item active" data-priority="all">
+                    <span class="priority-dot all"></span>
+                    <span>Tümü</span>
+                </div>
+                <div class="priority-filter-item" data-priority="low">
+                    <span class="priority-dot low"></span>
+                    <span>Düşük</span>
+                </div>
+                <div class="priority-filter-item" data-priority="medium">
+                    <span class="priority-dot medium"></span>
+                    <span>Orta</span>
+                </div>
+                <div class="priority-filter-item" data-priority="high">
+                    <span class="priority-dot high"></span>
+                    <span>Yüksek</span>
+                </div>
+                <div class="priority-filter-item" data-priority="urgent">
+                    <span class="priority-dot urgent"></span>
+                    <span>Acil</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ana İçerik -->
+        <div class="main-content">
+            <div class="container">
+                <h1>📝 Yapılacaklar Listem</h1>
+                
+                <div class="input-section">
+                    <input type="text" id="taskInput" placeholder="Yeni görev ekle...">
+                    <select id="categorySelect">
+                        <option value="work">💼 İş</option>
+                        <option value="personal">👤 Kişisel</option>
+                        <option value="shopping">🛒 Alışveriş</option>
+                        <option value="health">🏥 Sağlık</option>
+                    </select>
+                    <select id="prioritySelect">
+                        <option value="low">🟢 Düşük</option>
+                        <option value="medium" selected>🟡 Orta</option>
+                        <option value="high">🟠 Yüksek</option>
+                        <option value="urgent">🔴 Acil</option>
+                    </select>
+                    <button onclick="addTask()">Ekle</button>
+                </div>
+                
+                <div class="filters-header">
+                    <h3 id="currentCategoryTitle">📋 Tüm Görevler</h3>
+                    <div class="sort-options">
+                        <select id="sortSelect" onchange="sortTasks()">
+                            <option value="default">Varsayılan</option>
+                            <option value="priority">Önceliğe Göre</option>
+                            <option value="name">İsme Göre</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <ul id="taskList"></ul>
+                
+                <div class="stats">
+                    <span id="taskCount">0 görev</span>
+                    <div>
+                        <button onclick="clearCompleted()">Tamamlananları Temizle</button>
+                        <button onclick="exportTasks()" class="btn-export">Dışa Aktar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Silme Onay Modal -->
+    <div id="deleteModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <h3>Kategori Sil</h3>
+            <p id="modalMessage">Bu kategoriyi silmek istediğinizden emin misiniz?</p>
+            <div class="modal-actions">
+                <button onclick="cancelDelete()" class="btn-cancel">İptal</button>
+                <button onclick="confirmDelete()" class="btn-delete">Sil</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
